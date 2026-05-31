@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benchmarks — CortexDB Docs</title>
+  <meta name="description"
+    content="CortexDB benchmark results across HotpotQA and MuSiQue datasets, comparing Naive RAG, HyDE, Advanced RAG, and CortexDB architectures.">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="logo"><span class="logo-icon">⚡</span> CortexDB</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="getting-started.html">Getting Started</a>
+      <a href="api-reference.html">API Reference</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="benchmarks.html" class="active">Benchmarks</a>
+      <a href="sdks.html">SDKs</a>
+    </nav>
+    <a href="https://github.com/harshit-sandilya/CortexDB" class="github-link" target="_blank">⭐ GitHub</a>
+  </header>
+
+  <div class="page-wrapper">
+    <aside class="sidebar">
+      <div class="sidebar-group">
+        <div class="sidebar-group-title">Benchmarks</div>
+        <a href="#overview" class="active">Overview</a>
+        <a href="#hotpotqa-small">HotpotQA (Small)</a>
+        <a href="#hotpotqa-medium">HotpotQA (Medium)</a>
+        <a href="#musique-large">MuSiQue (Large)</a>
+      </div>
+    </aside>
+
+    <main class="content">
+      <h1>Benchmarks</h1>
+      <p class="subtitle">Rigorous evaluation of CortexDB against industry-standard RAG architectures across multiple
+        multi-hop reasoning datasets.</p>
+
+      <!-- ═══ OVERVIEW ═══ -->
+      <h2 id="overview">Evaluation Overview</h2>
+      <p>CortexDB was benchmarked against three baseline architectures — <strong>Naive RAG</strong>,
+        <strong>HyDE</strong> (Hypothetical Document Embeddings), and <strong>Advanced RAG</strong> (with Re-ranker) —
+        across datasets of varying complexity and size.
+      </p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon" style="background: rgba(96, 165, 250, 0.15); color: var(--accent-blue);">📊</div>
+          <div class="card-title">MRR</div>
+          <div class="card-desc">Mean Reciprocal Rank — measures how high the first relevant result appears in the
+            ranked list.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background: rgba(139, 92, 246, 0.15); color: var(--accent-secondary);">🎯</div>
+          <div class="card-title">Ctx Precision</div>
+          <div class="card-desc">Context Precision — the fraction of retrieved contexts that are actually relevant to
+            answering the query.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background: rgba(251, 191, 36, 0.15); color: var(--accent-amber);">⏱️</div>
+          <div class="card-title">Avg Latency</div>
+          <div class="card-desc">Average end-to-end latency measured in seconds for retrieving and generating an answer.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background: rgba(52, 211, 153, 0.15); color: var(--accent-green);">⭐</div>
+          <div class="card-title">Answer Quality</div>
+          <div class="card-desc">LLM-evaluated answer correctness — the ultimate measure of how well the system answers
+            multi-hop questions.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <strong>ℹ️ Evaluation Setup:</strong>
+        <p>All benchmarks use 50 queries with a retrieval parameter of Top-K = 5 context elements. Latency is
+          measured in seconds. MRR = Mean Reciprocal Rank; Ctx = Context.</p>
+      </div>
+
+      <!-- ═══ HOTPOTQA SMALL ═══ -->
+      <h2 id="hotpotqa-small">HotpotQA-Derived Dataset (Small Size)</h2>
+      <p>Evaluated using 50 queries mapped to approximately 120 context chunks from the HotpotQA dev-distractor split,
+        including both gold evidence and semantic distractors.</p>
+
+      <div class="benchmark-table-wrapper">
+        <table class="benchmark-table">
+          <thead>
+            <tr>
+              <th>Architecture</th>
+              <th>MRR</th>
+              <th>Ctx Precision</th>
+              <th>Avg Latency</th>
+              <th>Ans Quality</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Naive</td>
+              <td>1.000</td>
+              <td>0.7</td>
+              <td>0.2486</td>
+              <td>0.7266</td>
+            </tr>
+            <tr>
+              <td>HyDE</td>
+              <td>0.9688</td>
+              <td>0.7</td>
+              <td>7.1957</td>
+              <td>0.7638</td>
+            </tr>
+            <tr>
+              <td>Advanced</td>
+              <td>1.000</td>
+              <td>0.7</td>
+              <td>7.7278</td>
+              <td>0.7824</td>
+            </tr>
+            <tr class="benchmark-highlight">
+              <td><strong>CortexDB</strong></td>
+              <td><strong>1.000</strong></td>
+              <td><strong>0.7</strong></td>
+              <td><strong>2.3592</strong></td>
+              <td><strong>0.8242</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ═══ HOTPOTQA MEDIUM ═══ -->
+      <h2 id="hotpotqa-medium">HotpotQA-Derived Dataset (Medium Size)</h2>
+      <p>Evaluated using 50 queries mapped to approximately 200 context chunks from the HotpotQA dev-distractor split,
+        including both gold evidence and semantic distractors.</p>
+
+      <div class="benchmark-table-wrapper">
+        <table class="benchmark-table">
+          <thead>
+            <tr>
+              <th>Architecture</th>
+              <th>MRR</th>
+              <th>Ctx Precision</th>
+              <th>Avg Latency</th>
+              <th>Ans Quality</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Naive</td>
+              <td>0.8042</td>
+              <td>0.8</td>
+              <td>2.6237</td>
+              <td>0.3750</td>
+            </tr>
+            <tr>
+              <td>HyDE</td>
+              <td>0.8208</td>
+              <td>0.8</td>
+              <td>7.7163</td>
+              <td>0.4250</td>
+            </tr>
+            <tr>
+              <td>Advanced</td>
+              <td>0.7825</td>
+              <td>0.8</td>
+              <td>2.5562</td>
+              <td>0.4289</td>
+            </tr>
+            <tr class="benchmark-highlight">
+              <td><strong>CortexDB</strong></td>
+              <td><strong>0.7641</strong></td>
+              <td><strong>0.4</strong></td>
+              <td><strong>4.1478</strong></td>
+              <td><strong>0.6000</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ═══ MUSIQUE LARGE ═══ -->
+      <h2 id="musique-large">MuSiQue Dataset (Large Size)</h2>
+      <p>Evaluated using 50 queries mapped to approximately 200 context chunks from the MuSiQue dataset. Results were
+        obtained using a retrieval parameter of Top-K = 5 context elements. Latency is measured in seconds.</p>
+
+      <div class="benchmark-table-wrapper">
+        <table class="benchmark-table">
+          <thead>
+            <tr>
+              <th>Architecture</th>
+              <th>MRR</th>
+              <th>Ctx Precision</th>
+              <th>Avg Latency</th>
+              <th>Ans Quality</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Naive</td>
+              <td>0.9458</td>
+              <td>0.6</td>
+              <td>4.3163</td>
+              <td>0.1975</td>
+            </tr>
+            <tr>
+              <td>HyDE</td>
+              <td>0.9000</td>
+              <td>0.6</td>
+              <td>7.6892</td>
+              <td>0.2025</td>
+            </tr>
+            <tr>
+              <td>Advanced</td>
+              <td>0.8675</td>
+              <td>0.6</td>
+              <td>3.6895</td>
+              <td>0.2087</td>
+            </tr>
+            <tr class="benchmark-highlight">
+              <td><strong>CortexDB</strong></td>
+              <td><strong>0.8617</strong></td>
+              <td><strong>0.2</strong></td>
+              <td><strong>4.1655</strong></td>
+              <td><strong>0.2413</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    CortexDB · MIT License · <a href="https://github.com/harshit-sandilya/CortexDB">GitHub</a>
+  </footer>
+
+</body>
+
+</html>
